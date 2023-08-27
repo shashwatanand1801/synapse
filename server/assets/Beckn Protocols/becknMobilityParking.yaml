@@ -1,0 +1,933 @@
+openapi: 3.0.0
+info:
+  title: Beckn PinPark Parking API
+  description: Beckn PinPark Parking API specification
+  version: 0.9.3-draft
+paths:
+  /search:
+    post:
+      tags:
+        - Beckn Provider Platform (BPP)
+        - Beckn Gateway (BG)
+      description: Search for services by intent
+      requestBody:
+        description: BAP searches for services
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknReq_SearchIntent"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Proxy-Authorization` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+  /confirm:
+    post:
+      tags:
+        - Beckn Provider Platform (BPP)
+      description: Initialize an order by providing billing and/or shipping details
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknReq_ConfirmMessage"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+  /status:
+    post:
+      tags:
+        - Beckn Provider Platform (BPP)
+      description: Fetch the latest order object
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknReq_StatusMessage"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+  /on_search:
+    post:
+      tags:
+        - Beckn App Platform (BAP)
+        - Beckn Gateway (BG)
+      description: Send catalog
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknCallbackReq_OnSearchCatalog"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Proxy-Authorization` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+  /on_confirm:
+    post:
+      tags:
+        - Beckn App Platform (BAP)
+      description: Send active order object
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknCallbackReq_OnConfirmMessage"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Proxy-Authorization` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+  /on_status:
+    post:
+      tags:
+        - Beckn App Platform (BAP)
+      description: Fetch the status of a Service
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/BecknCallbackReq_OnStatusMessage"
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: "#/components/schemas/AckResponse"
+        "400":
+          description: Invalid `body` or `Proxy-Authorization` or `Authorization`
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+        - Subscriber: []
+components:
+  schemas:
+    AckResponse:
+      type: string
+      enum:
+        - Ack
+    BecknReq_SearchIntent:
+      required:
+        - context
+        - message
+      type: object
+      properties:
+        context:
+          $ref: "#/components/schemas/Context"
+        message:
+          required:
+            - intent
+          type: object
+          properties:
+            intent:
+              $ref: "#/components/schemas/Intent"
+    Context:
+      required:
+        - domain
+        - country
+        - city
+        - action
+        - core_version
+        - bap_id
+        - bap_uri
+        - transaction_id
+        - message_id
+        - timestamp
+      type: object
+      properties:
+        ttl:
+          $ref: "#/components/schemas/UTCTime"
+        country:
+          type: string
+        domain:
+          $ref: "#/components/schemas/Domain"
+        bpp_uri:
+          $ref: "#/components/schemas/BaseUrl"
+        transaction_id:
+          type: string
+        action:
+          $ref: "#/components/schemas/Action"
+        message_id:
+          type: string
+        key:
+          type: string
+        city:
+          type: string
+        bap_uri:
+          $ref: "#/components/schemas/BaseUrl"
+        bpp_id:
+          type: string
+        timestamp:
+          $ref: "#/components/schemas/UTCTime"
+        core_version:
+          type: string
+        bap_id:
+          type: string
+    Domain:
+      type: string
+      enum:
+        - MOBILITY
+        - FINAL_MILE_DELIVERY
+        - LOCAL_RETAIL
+        - FOOD_AND_BEVERAGE
+        - HEALTHCARE
+        - METRO
+        - PARKING
+    Action:
+      type: string
+      enum:
+        - SEARCH
+        - SELECT
+        - INIT
+        - CONFIRM
+        - UPDATE
+        - STATUS
+        - TRACK
+        - CANCEL
+        - RATING
+        - SUPPORT
+        - ON_SEARCH
+        - ON_SELECT
+        - ON_INIT
+        - ON_CONFIRM
+        - ON_UPDATE
+        - ON_STATUS
+        - ON_TRACK
+        - ON_CANCEL
+        - ON_RATING
+        - ON_SUPPORT
+    BaseUrl:
+      type: string
+    UTCTime:
+      example: "2016-07-22T00:00:00Z"
+      format: "yyyy-mm-ddThh:MM:ssZ"
+      type: string
+    Intent:
+      required:
+        - fulfillment
+      type: object
+      properties:
+        fulfillment:
+          required:
+            - start
+            - end
+          type: object
+          properties:
+            start:
+              required:
+                - time
+              type: object
+              properties:
+                time:
+                  $ref: "#/components/schemas/Time"
+            end:
+              required:
+                - location
+                - time
+              type: object
+              properties:
+                time:
+                  $ref: "#/components/schemas/Time"
+                location:
+                  required:
+                    - gps
+                  type: object
+                  properties:
+                    gps:
+                      $ref: "#/components/schemas/Gps"
+    Time:
+      required:
+        - timestamp
+      type: object
+      properties:
+        timestamp:
+          $ref: "#/components/schemas/UTCTime"
+    Gps:
+      required:
+        - lat
+        - lon
+      type: object
+      properties:
+        lat:
+          format: double
+          type: number
+        lon:
+          format: double
+          type: number
+    BecknReq_ConfirmMessage:
+      required:
+        - context
+        - message
+      type: object
+      properties:
+        context:
+          $ref: "#/components/schemas/Context"
+        message:
+          required:
+            - order
+          type: object
+          properties:
+            order:
+              required:
+                - provider
+                - items
+                - billing
+                - fulfillment
+              type: object
+              properties:
+                items:
+                  items:
+                    required:
+                      - id
+                      - quantity
+                    type: object
+                    properties:
+                      quantity:
+                        required:
+                          - count
+                        type: object
+                        properties:
+                          count:
+                            maximum: 9223372036854776000
+                            minimum: -9223372036854776000
+                            type: integer
+                      id:
+                        type: string
+                  type: array
+                fulfillment:
+                  required:
+                    - start
+                    - end
+                    - vehicle
+                  type: object
+                  properties:
+                    start:
+                      required:
+                        - time
+                      type: object
+                      properties:
+                        time:
+                          $ref: "#/components/schemas/Time"
+                    end:
+                      required:
+                        - time
+                      type: object
+                      properties:
+                        time:
+                          $ref: "#/components/schemas/Time"
+                    vehicle:
+                      $ref: "#/components/schemas/Vehicle"
+                billing:
+                  $ref: "#/components/schemas/Billing"
+                provider:
+                  required:
+                    - locations
+                  type: object
+                  properties:
+                    locations:
+                      items:
+                        required:
+                          - id
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                      type: array
+    Billing:
+      required:
+        - phone
+        - name
+      type: object
+      properties:
+        phone:
+          type: string
+        name:
+          type: string
+    Vehicle:
+      required:
+        - registration
+      type: object
+      properties:
+        registration:
+          type: string
+    BecknReq_StatusMessage:
+      required:
+        - context
+        - message
+      type: object
+      properties:
+        context:
+          $ref: "#/components/schemas/Context"
+        message:
+          required:
+            - order
+          type: object
+          properties:
+            order:
+              required:
+                - id
+              type: object
+              properties:
+                id:
+                  type: string
+    BecknCallbackReq_OnSearchCatalog:
+      oneOf:
+        - required:
+            - context
+            - message
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            message:
+              required:
+                - catalog
+              type: object
+              properties:
+                catalog:
+                  $ref: "#/components/schemas/Catalog"
+        - required:
+            - context
+            - error
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            error:
+              $ref: "#/components/schemas/Error"
+      type: object
+    Error:
+      required:
+        - _type
+        - code
+      type: object
+      properties:
+        _type:
+          $ref: "#/components/schemas/ErrorType"
+        path:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    ErrorType:
+      type: string
+      enum:
+        - CONTEXT_ERROR
+        - CORE_ERROR
+        - INTERNAL_ERROR
+        - DOMAIN_ERROR
+        - POLICY_ERROR
+        - JSON_SCHEMA_ERROR
+    Catalog:
+      required:
+        - bpp/descriptor
+        - bpp/providers
+      type: object
+      properties:
+        bpp/providers:
+          items:
+            required:
+              - descriptor
+              - categories
+              - locations
+            type: object
+            properties:
+              items:
+                items:
+                  required:
+                    - id
+                    - descriptor
+                    - price
+                    - location_id
+                    - quantity
+                  type: object
+                  properties:
+                    matched:
+                      type: boolean
+                    category_id:
+                      type: string
+                    quantity:
+                      required:
+                        - available
+                      type: object
+                      properties:
+                        available:
+                          required:
+                            - count
+                          type: object
+                          properties:
+                            count:
+                              maximum: 9223372036854776000
+                              minimum: -9223372036854776000
+                              type: integer
+                            measure:
+                              $ref: "#/components/schemas/Scalar"
+                    location_id:
+                      type: string
+                    id:
+                      type: string
+                    price:
+                      $ref: "#/components/schemas/Price"
+                    descriptor:
+                      required:
+                        - name
+                        - images
+                      type: object
+                      properties:
+                        images:
+                          items:
+                            $ref: "#/components/schemas/BaseUrl"
+                          type: array
+                        name:
+                          type: string
+                type: array
+              categories:
+                items:
+                  $ref: "#/components/schemas/Category"
+                type: array
+              id:
+                type: string
+              descriptor:
+                $ref: "#/components/schemas/Descriptor"
+              locations:
+                items:
+                  $ref: "#/components/schemas/Location"
+                type: array
+          type: array
+        bpp/descriptor:
+          $ref: "#/components/schemas/Descriptor"
+    Descriptor:
+      required:
+        - name
+        - short_desc
+        - images
+      type: object
+      properties:
+        images:
+          items:
+            type: string
+          type: array
+        short_desc:
+          type: string
+        name:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        descriptor:
+          required:
+            - name
+          type: object
+          properties:
+            name:
+              type: string
+    Location:
+      required:
+        - id
+        - gps
+        - address
+      type: object
+      properties:
+        address:
+          $ref: "#/components/schemas/Address"
+        gps:
+          $ref: "#/components/schemas/Gps"
+        id:
+          type: string
+    Address:
+      required:
+        - name
+        - street_address
+        - locality
+        - state
+        - country
+        - area_code
+      type: object
+      properties:
+        state:
+          type: string
+        country:
+          type: string
+        locality:
+          type: string
+        name:
+          type: string
+        city:
+          type: string
+        area_code:
+          type: string
+        street_address:
+          type: string
+    Price:
+      required:
+        - currency
+        - value
+      type: object
+      properties:
+        value:
+          $ref: "#/components/schemas/DecimalValue"
+        currency:
+          type: string
+    DecimalValue:
+      type: string
+    Scalar:
+      required:
+        - value
+        - unit
+      type: object
+      properties:
+        _type:
+          $ref: "#/components/schemas/ScalarType"
+        computed_value:
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          type: integer
+        value:
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          type: integer
+        estimated_value:
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          type: integer
+        range:
+          $ref: "#/components/schemas/Range"
+        unit:
+          type: string
+    ScalarType:
+      type: string
+      enum:
+        - CONSTANT
+        - VARIABLE
+    Range:
+      required:
+        - min
+        - max
+      type: object
+      properties:
+        max:
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          type: integer
+        min:
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          type: integer
+    BecknCallbackReq_OnConfirmMessage:
+      oneOf:
+        - required:
+            - context
+            - message
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            message:
+              required:
+                - order
+              type: object
+              properties:
+                order:
+                  $ref: "#/components/schemas/Order"
+        - required:
+            - context
+            - error
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            error:
+              $ref: "#/components/schemas/Error"
+      type: object
+    Order:
+      required:
+        - id
+        - provider
+        - provider_location
+        - items
+        - billing
+        - fulfillment
+        - quote
+        - payment
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+            - ACTIVE
+            - CANCELLED
+            - COMPLETE
+        payment:
+          $ref: "#/components/schemas/Payment"
+        items:
+          items:
+            $ref: "#/components/schemas/Item"
+          type: array
+        quote:
+          $ref: "#/components/schemas/SpecQuote"
+        fulfillment:
+          $ref: "#/components/schemas/Fulfillment"
+        id:
+          type: string
+        provider_location:
+          required:
+            - id
+          type: object
+          properties:
+            id:
+              type: string
+        billing:
+          $ref: "#/components/schemas/Billing"
+        provider:
+          $ref: "#/components/schemas/Provider"
+    Provider:
+      required:
+        - id
+        - descriptor
+        - locations
+      type: object
+      properties:
+        id:
+          type: string
+        descriptor:
+          $ref: "#/components/schemas/Descriptor"
+        locations:
+          items:
+            $ref: "#/components/schemas/Location"
+          type: array
+    Item:
+      required:
+        - id
+        - price
+        - quantity
+      type: object
+      properties:
+        quantity:
+          required:
+            - count
+          type: object
+          properties:
+            count:
+              maximum: 9223372036854776000
+              minimum: -9223372036854776000
+              type: integer
+        id:
+          type: string
+        price:
+          $ref: "#/components/schemas/Price"
+    Fulfillment:
+      required:
+        - type
+        - tracking
+        - start
+        - end
+        - vehicle
+      type: object
+      properties:
+        start:
+          $ref: "#/components/schemas/Start"
+        tracking:
+          type: boolean
+        end:
+          $ref: "#/components/schemas/End"
+        type:
+          type: string
+        vehicle:
+          $ref: "#/components/schemas/Vehicle"
+    Start:
+      required:
+        - location
+        - contact
+        - time
+      type: object
+      properties:
+        time:
+          $ref: "#/components/schemas/Time"
+        location:
+          $ref: "#/components/schemas/StartLocation"
+        contact:
+          $ref: "#/components/schemas/Contact"
+    StartLocation:
+      required:
+        - id
+        - descriptor
+        - gps
+      type: object
+      properties:
+        gps:
+          type: string
+        id:
+          type: string
+        descriptor:
+          $ref: "#/components/schemas/Descriptor"
+    Contact:
+      required:
+        - phone
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+        phone:
+          type: string
+    End:
+      required:
+        - time
+      type: object
+      properties:
+        time:
+          $ref: "#/components/schemas/Time"
+    SpecQuote:
+      required:
+        - price
+        - breakup
+      type: object
+      properties:
+        breakup:
+          items:
+            $ref: "#/components/schemas/Breakup"
+          type: array
+        price:
+          $ref: "#/components/schemas/Price"
+    Breakup:
+      required:
+        - title
+        - price
+      type: object
+      properties:
+        price:
+          $ref: "#/components/schemas/Price"
+        title:
+          type: string
+    Payment:
+      required:
+        - params
+        - type
+        - status
+        - uri
+        - tl_method
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - PAID
+            - NOT-PAID
+        uri:
+          $ref: "#/components/schemas/BaseUrl"
+        params:
+          required:
+            - amount
+            - currency
+            - transaction_status
+            - transaction_id
+          type: object
+          properties:
+            amount:
+              type: string
+            transaction_status:
+              type: string
+              enum:
+                - payment_link_created
+                - payment_link_expired
+                - captured
+                - refunded
+            transaction_id:
+              type: string
+            currency:
+              type: string
+        tl_method:
+          type: string
+        type:
+          type: string
+          enum:
+            - PRE-FULFILLMENT
+            - POST-FULFILLMENT
+            - ON-ORDER
+    BecknCallbackReq_OnStatusMessage:
+      oneOf:
+        - required:
+            - context
+            - message
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            message:
+              required:
+                - order
+              type: object
+              properties:
+                order:
+                  $ref: "#/components/schemas/Order"
+        - required:
+            - context
+            - error
+          type: object
+          properties:
+            context:
+              $ref: "#/components/schemas/Context"
+            error:
+              $ref: "#/components/schemas/Error"
+      type: object
+  responses:
+    Unauthorized:
+      description: Unauthorized
+  securitySchemes:
+    Subscriber:
+      in: header
+      name: Authorization
+      type: apiKey
+      description: Looks up the given key Id in the Beckn registry.
+tags:
+  - name: Beckn App Platform (BAP)
+  - name: Beckn Gateway (BG)
+  - name: Beckn Provider Platform (BPP)

@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Online Course Organization API
+  description: API for managing online courses offered by an organization
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /courses:
+    get:
+      summary: Get a list of all courses
+      responses:
+        '200':
+          description: Successful response with a list of courses
+          content:
+            application/json:
+              example:
+                - id: 1
+                  title: Introduction to Programming
+                  description: Learn the basics of programming.
+                  instructor: John Doe
+                  duration: 4 weeks
+                - id: 2
+                  title: Web Development Fundamentals
+                  description: Dive into web development technologies.
+                  instructor: Jane Smith
+                  duration: 6 weeks
+    post:
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                instructor:
+                  type: string
+                duration:
+                  type: string
+      responses:
+        '201':
+          description: Course created successfully
+          content:
+            application/json:
+              example:
+                id: 3
+                title: Advanced JavaScript
+                description: Deepen your knowledge of JavaScript.
+                instructor: Alex Johnson
+                duration: 5 weeks
+        '400':
+          description: Bad request
+
+  /courses/{courseId}:
+    parameters:
+      - name: courseId
+        in: path
+        required: true
+        description: ID of the course
+        schema:
+          type: integer
+    get:
+      summary: Get details of a specific course
+      responses:
+        '200':
+          description: Successful response with course details
+          content:
+            application/json:
+              example:
+                id: 1
+                title: Introduction to Programming
+                description: Learn the basics of programming.
+                instructor: John Doe
+                duration: 4 weeks
+        '404':
+          description: Course not found
+
+    put:
+      summary: Update details of a specific course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                instructor:
+                  type: string
+                duration:
+                  type: string
+      responses:
+        '200':
+          description: Course updated successfully
+        '400':
+          description: Bad request
+        '404':
+          description: Course not found
+
+    delete:
+      summary: Delete a specific course
+      responses:
+        '204':
+          description: Course deleted successfully
+        '404':
+          description: Course not found
+
+  /courses/{courseId}/enrollments:
+    parameters:
+      - name: courseId
+        in: path
+        required: true
+        description: ID of the course
+        schema:
+          type: integer
+    get:
+      summary: Get a list of enrollments for a specific course
+      responses:
+        '200':
+          description: Successful response with a list of enrollments
+          content:
+            application/json:
+              example:
+                - studentId: 101
+                  studentName: Alice Johnson
+                - studentId: 102
+                  studentName: Bob Smith
+
+  /courses/{courseId}/enrollments/{studentId}:
+    parameters:
+      - name: courseId
+        in: path
+        required: true
+        description: ID of the course
+        schema:
+          type: integer
+      - name: studentId
+        in: path
+        required: true
+        description: ID of the student
+        schema:
+          type: integer
+    get:
+      summary: Get details of a specific enrollment for a course
+      responses:
+        '200':
+          description: Successful response with enrollment details
+          content:
+            application/json:
+              example:
+                studentId: 101
+                studentName: Alice Johnson
+        '404':
+          description: Enrollment not found
+
+    delete:
+      summary: Remove a student's enrollment from a course
+      responses:
+        '204':
+          description: Enrollment removed successfully
+        '404':
+          description: Enrollment not found

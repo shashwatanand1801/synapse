@@ -1,0 +1,501 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Beckn Core API",
+    "description": "Beckn Core API specification",
+    "version": "1.0.0-dsep-draft"
+  },
+  "paths": {
+    "/search": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)",
+          "Beckn Gateway (BG)"
+        ],
+        "description": "This allows a user to search for a) Jobs and Internships b) Trainings and Courses c)",
+        "requestBody": {
+          "description": "BAP searches for services",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "intent": {
+                        "$ref": "#/components/schemas/Intent"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/select": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Select items from the catalog and build your order",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "required": [
+                      "order"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/init": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Initialize an order by providing billing and/or shipping details",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "required": [
+                      "order"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/confirm": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Initialize an order by providing billing and/or shipping details",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "required": [
+                      "order"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Fetch the latest order object",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order_id": {
+                        "$ref": "#/components/schemas/Order/properties/id"
+                      }
+                    },
+                    "required": [
+                      "order_id"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/track": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Track an active order",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order_id": {
+                        "$ref": "#/components/schemas/Order/properties/id"
+                      },
+                      "callback_url": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    },
+                    "required": [
+                      "order_id"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cancel": {
+      "post": {
+        "tags": [
+          "Beckn Provider Platform (BPP)"
+        ],
+        "description": "Cancel an order",
+        "requestBody": {
+          "description": "TODO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "$ref": "#/components/schemas/Context"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "order_id": {
+                        "$ref": "#/components/schemas/Order/properties/id"
+                      },
+                      "cancellation_reason_id": {
+                        "$ref": "#/components/schemas/Option/properties/id"
+                      },
+                      "descriptor": {
+                        "$ref": "#/components/schemas/Descriptor"
+                      }
+                    },
+                    "required": [
+                      "order_id"
+                    ]
+                  }
+                },
+                "required": [
+                  "context",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement of message received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "ack": {
+                          "$ref": "#/components/schemas/Ack"
+                        }
+                      },
+                      "required": [
+                        "ack"
+                      ]
+                    },
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

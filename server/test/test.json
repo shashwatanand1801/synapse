@@ -1,0 +1,125 @@
+{
+    "mapping": [
+      {
+        "source": "/search",
+        "target": "/courses",
+        "direction": "request",
+        "description": "BAP search request maps to retrieving list of courses"
+      },
+      {
+        "source": "/on_search",
+        "target": "/courses",
+        "direction": "response",
+        "description": "BPP search response maps to list of courses"
+      },
+      {
+        "source": "/select",
+        "target": "/courses",
+        "direction": "request",
+        "description": "BAP select request maps to creating a new course"
+      },
+      {
+        "source": "/on_select",
+        "target": "/courses",
+        "direction": "response",
+        "description": "BPP select response maps to newly created course details"
+      },
+      {
+        "source": "/init",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP init request maps to updating details of a specific course"
+      },
+      {
+        "source": "/on_init",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP init response maps to updated course details"
+      },
+      {
+        "source": "/confirm",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP confirm request maps to retrieving details of a specific course"
+      },
+      {
+        "source": "/on_confirm",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP confirm response maps to course details"
+      },
+      {
+        "source": "/status",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP status request maps to retrieving details of a specific course"
+      },
+      {
+        "source": "/on_status",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP status response maps to course details"
+      },
+      {
+        "source": "/track",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP track request maps to retrieving details of a specific course"
+      },
+      {
+        "source": "/on_track",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP track response maps to course details"
+      },
+      {
+        "source": "/cancel",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP cancel request maps to deleting a specific course"
+      },
+      {
+        "source": "/on_cancel",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP cancel response maps to course deletion"
+      },
+      {
+        "source": "/update",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP update request maps to updating details of a specific course"
+      },
+      {
+        "source": "/on_update",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP update response maps to updated course details"
+      },
+      {
+        "source": "/rating",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP rating request maps to updating feedback on a specific course"
+      },
+      {
+        "source": "/on_rating",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP rating response maps to updated course details"
+      },
+      {
+        "source": "/support",
+        "target": "/courses/{courseId}",
+        "direction": "request",
+        "description": "BAP support request maps to contacting support for a specific course"
+      },
+      {
+        "source": "/on_support",
+        "target": "/courses/{courseId}",
+        "direction": "response",
+        "description": "BPP support response maps to support response for the course"
+      }
+    ]
+  }
+  

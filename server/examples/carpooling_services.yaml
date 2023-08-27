@@ -1,0 +1,247 @@
+openapi: 3.0.0
+info:
+  title: Carpooling API
+  description: API for managing carpooling services
+  version: 1.0.0
+servers:
+  - url: https://api.carpoolcompany.com/v1
+paths:
+  /users:
+    get:
+      summary: Get a list of users
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: John Doe
+                  email: john@example.com
+                - id: 2
+                  name: Jane Smith
+                  email: jane@example.com
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+              required:
+                - name
+                - email
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              example:
+                id: 3
+                name: New User
+                email: newuser@example.com
+
+  /rides:
+    get:
+      summary: Get a list of available rides
+      responses:
+        '200':
+          description: List of rides
+          content:
+            application/json:
+              example:
+                - id: 101
+                  driver: John Doe
+                  departure: "2023-08-25T09:00:00Z"
+                  origin: Downtown
+                  destination: Suburbia
+                  available_seats: 3
+                - id: 102
+                  driver: Jane Smith
+                  departure: "2023-08-26T08:30:00Z"
+                  origin: Uptown
+                  destination: Countryside
+                  available_seats: 2
+    post:
+      summary: Create a new ride offer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                driver:
+                  type: string
+                departure:
+                  type: string
+                  format: date-time
+                origin:
+                  type: string
+                destination:
+                  type: string
+                available_seats:
+                  type: integer
+              required:
+                - driver
+                - departure
+                - origin
+                - destination
+                - available_seats
+      responses:
+        '201':
+          description: Ride offer created successfully
+          content:
+            application/json:
+              example:
+                id: 103
+                driver: New User
+                departure: "2023-09-01T07:45:00Z"
+                origin: Suburbia
+                destination: Downtown
+                available_seats: 4
+
+  /rides/{rideId}/join:
+    post:
+      summary: Join a ride
+      parameters:
+        - in: path
+          name: rideId
+          required: true
+          schema:
+            type: integer
+          description: ID of the ride to join
+      responses:
+        '200':
+          description: Successfully joined the ride
+        '404':
+          description: Ride not found
+        '400':
+          description: Ride is full or unavailable
+
+  /rides/{rideId}/leave:
+    post:
+      summary: Leave a ride
+      parameters:
+        - in: path
+          name: rideId
+          required: true
+          schema:
+            type: integer
+          description: ID of the ride to leave
+      responses:
+        '200':
+          description: Successfully left the ride
+        '404':
+          description: Ride not found
+        '400':
+          description: User is not part of the ride
+
+  /rides/{rideId}/passengers:
+    get:
+      summary: Get the list of passengers for a ride
+      parameters:
+        - in: path
+          name: rideId
+          required: true
+          schema:
+            type: integer
+          description: ID of the ride
+      responses:
+        '200':
+          description: List of passengers
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: John Doe
+                - id: 2
+                  name: Jane Smith
+
+  /rides/{rideId}/route:
+    get:
+      summary: Get the route details for a ride
+      parameters:
+        - in: path
+          name: rideId
+          required: true
+          schema:
+            type: integer
+          description: ID of the ride
+      responses:
+        '200':
+          description: Route details
+          content:
+            application/json:
+              example:
+                origin: Downtown
+                waypoints: [Midtown, Suburbia]
+                destination: Countryside
+
+  /users/{userId}/rides:
+    get:
+      summary: Get the list of rides offered by a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+      responses:
+        '200':
+          description: List of rides offered by the user
+          content:
+            application/json:
+              example:
+                - id: 101
+                  origin: Downtown
+                  destination: Suburbia
+                - id: 103
+                  origin: Suburbia
+                  destination: Downtown
+
+  /users/{userId}/requests:
+    get:
+      summary: Get the list of ride requests made by a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID of the user
+      responses:
+        '200':
+          description: List of ride requests made by the user
+          content:
+            application/json:
+              example:
+                - id: 201
+                  origin: Uptown
+                  destination: Downtown
+                - id: 203
+                  origin: Midtown
+                  destination: Suburbia
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: users
+    description: Operations related to users
+  - name: rides
+    description: Operations related to rides
