@@ -25,6 +25,12 @@ To get started with QRBeckn, follow these steps:
 ## Documentations
  The documentations and more detailed getting started can be find in the server and client directories of the repository.
 
+## Demo Link
+[Click to see demo](https://drive.google.com/file/d/1LyfPvOt_KOYhzB47wBRpKkqzuMPSyL1v/view?usp=sharing)
+
+## Live Demo
+[Deployed Application]()
+
 ## Contributing
 
 We welcome contributions to Synapse! If you would like to contribute to this project, please follow these guidelines:
