@@ -51,8 +51,8 @@ class GPT {
 
         var completion = await this.getChatCompletion(prompt);
 
-        completion = completion.replaceAll("API1", beckn_API_Name)
-        completion = completion.replaceAll("API2", bisName)
+        completion = completion.replace(/API1/g, beckn_API_Name)
+        completion = completion.replace(/API2/g, bisName)
 
         if (completion) {
             console.log('ChatGPT response:', completion);
