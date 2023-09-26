@@ -11,7 +11,8 @@ function ItemSelector() {
 
   useEffect(() => {
     // Fetch items from the backend JSON file when the component mounts
-    axios.get('http://localhost:8000/server/asset/get-all-fileName')
+    let endpoint = process.env.REACT_APP_SERVER_URL + '/server/asset/get-all-fileName'
+    axios.get(endpoint)
       .then((response) => {
         setItems(response.data);
       })

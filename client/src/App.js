@@ -33,9 +33,7 @@ const App = () => {
       
       showAlert(true, "Mapping in process... Please wait!");
       e.preventDefault();
-      console.log(process.env.REACT_APP_SERVER_URL)
       let endpoint = process.env.REACT_APP_SERVER_URL + '/server/mapping/add-mapping'
-      console.log(endpoint)
       let result = await fetch(
         endpoint, {
           method: "post",
