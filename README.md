@@ -48,6 +48,15 @@ OPENAI_API_KEY = your gpt3.5 api key
 DB_HOST = your mongodb atlas connection string
 ```
 
+- If running on localhost then you directly go to next step, If not then please go the client directory.
+```bash
+cd ../client
+```
+
+- Update the server url in the .env file.
+```bash
+REACT_APP_SERVER_URL = your server url
+```
 
 **Step 3: Building Docker Images**
 
