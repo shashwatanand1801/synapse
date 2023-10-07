@@ -1,16 +1,21 @@
 version: "3"
 services:
+  api-server:
+    image: shashwatanand1801/api-server
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=your gpt3.5 api key
+      - DB_HOST=your mongodb atlas connection string
+    networks:
+      - mern-app
   react-app:
     image: shashwatanand1801/react-app
     stdin_open: true
     ports: 
       - "3000:3000"
-    networks:
-      - mern-app
-  api-server:
-    image: shashwatanand1801/api-server
-    ports:
-      - "8000:8000"
+    environment:
+      - REACT_APP_SERVER_URL=replace it will url of api server
     networks:
       - mern-app
 networks:
